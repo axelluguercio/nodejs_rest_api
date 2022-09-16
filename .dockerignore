@@ -1,0 +1,6 @@
+node_modules
+.env.example
+Dockerfile
+docker-compose.yml
+data.json
+Makefile
