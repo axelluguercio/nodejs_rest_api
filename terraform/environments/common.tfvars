@@ -1,4 +1,4 @@
-app_name="storybooks"
+app_name="rest-api"
 project_id            = "devops-test-rest-api"
 region                = "us-central1"
 zone                  = "us-central1-a"
