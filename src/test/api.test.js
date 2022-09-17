@@ -21,7 +21,6 @@ test('POST request to /DevOps/token should return http code 200 with string toke
         .post('/DevOps/token')
         .send(payload)
         .expect(200)
-        .expect('Content-Type', /text\/html/)
 });
 
 afterAll(() => {
