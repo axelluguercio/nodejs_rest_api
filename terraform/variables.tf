@@ -13,6 +13,9 @@ variable "zone" {
   default = "us-central1-a"
 }
 
+### app name
+variable "app_name" {}
+
 #------------------------------------------------
 # VPC_native cluster networking
 # https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips
@@ -40,7 +43,7 @@ variable "services_ipv4_cidr_block" {
 
 variable "proxy_only_ip_cidr" {
   description = "CIDR for proxy-only subnet to be used by internal HTTP(s) load balancers."
-  default     = "192.168.254.0/27"
+  default     = "192.168.254.0/26"
 }
 
 variable "psc_ip_cidr" {
@@ -234,4 +237,9 @@ variable "taint" {
 variable "workload_metadata_enabled" {
   description = "Even though Workload Identity may be enabled at the cluster level, it can still be disabled at the node pool level"
   default     = "true"
+}
+
+variable "enable_private_endpoint" {
+  description = "When true public access to cluster (master) endpoint is disabled.  When false, it can be accessed both publicly and privately."
+  default     = "false"
 }

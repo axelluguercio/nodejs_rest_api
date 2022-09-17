@@ -16,7 +16,6 @@ resource "google_compute_subnetwork" "k8s_subnet" {
 # https://cloud.google.com/kubernetes-engine/docs/how-to/deploying-gateways#gateway_controller_requirements
 # https://cloud.google.com/load-balancing/docs/l7-internal/proxy-only-subnets
 resource "google_compute_subnetwork" "proxy_only_subnet" {
-  provider = google-beta
 
   name          = "${var.gke_cluster_name}-${terraform.workspace}-proxy-only-subnet"
   purpose       = "INTERNAL_HTTPS_LOAD_BALANCER"
@@ -28,7 +27,6 @@ resource "google_compute_subnetwork" "proxy_only_subnet" {
 
 # https://cloud.google.com/vpc/docs/private-service-connect#psc-subnets
 resource "google_compute_subnetwork" "psc_subnet" {
-  provider = google-beta
 
   name                     = "${var.gke_cluster_name}-${terraform.workspace}-psc-subnet"
   purpose                  = "PRIVATE_SERVICE_CONNECT"
