@@ -3,3 +3,4 @@ node_modules
 *key.json
 .terraform/
 *key.json
+.terraform*
