@@ -1,55 +1,43 @@
 resource "google_container_cluster" "primary" {
-    provider = google-beta
 
-    name     = "${var.gke_cluster_name}-${terraform.workspace}-cluster"
-    location = var.regional ? var.region : var.zone
+  name     = "${var.gke_cluster_name}-${terraform.workspace}-cluster"
+  location = var.zone
 
-    node_locations = var.node_locations
+  node_locations = var.node_locations
 
-    confidential_nodes {
-        enabled = var.confidential_nodes_enabled
-    }
-    node_config {
-        machine_type = var.machine_type
+  confidential_nodes {
+      enabled = var.confidential_nodes_enabled
+  }
+  node_config {
+    machine_type = var.machine_type
+  }
 
-    # https://cloud.google.com/sdk/gcloud/reference/beta/container/node-pools/create#--system-config-from-file
-        linux_node_config {
-        sysctls = {}
-        }
-    }
+  enable_shielded_nodes = var.enable_shielded_nodes
+  enable_tpu            = var.enable_tpu
 
-    enable_shielded_nodes = var.enable_shielded_nodes
-    enable_tpu            = var.enable_tpu
-
-    network    = google_compute_network.k8s_vpc.id
-    subnetwork = google_compute_subnetwork.k8s_subnet.id
+  network    = google_compute_network.k8s_vpc.id
+  subnetwork = google_compute_subnetwork.k8s_subnet.id
 
   # ip_allocation_policy left empty here to let GCP pick
   # otherwise you will have to define your own secondary CIDR ranges
   # which I will probably look to add at a later date
-    networking_mode = var.networking_mode
-    ip_allocation_policy {
-        cluster_ipv4_cidr_block  = var.cluster_ipv4_cidr_block
-        services_ipv4_cidr_block = var.services_ipv4_cidr_block
+  networking_mode = var.networking_mode
+  ip_allocation_policy {
+    cluster_ipv4_cidr_block  = var.cluster_ipv4_cidr_block
+    services_ipv4_cidr_block = var.services_ipv4_cidr_block
+  }
+
+  default_max_pods_per_node = var.max_pods_per_node
+
+  master_authorized_networks_config {
+    cidr_blocks {
+      cidr_block   = var.master_authorized_network_cidr
+      display_name = "allowed-cidr"
     }
+  }
 
-    default_max_pods_per_node = var.max_pods_per_node
-
-    private_cluster_config {
-        enable_private_endpoint = var.enable_private_endpoint
-        enable_private_nodes    = var.enable_private_nodes
-        master_ipv4_cidr_block  = var.master_ipv4_cidr_block
-    }
-
-    master_authorized_networks_config {
-        cidr_blocks {
-            cidr_block   = var.enable_private_endpoint ? var.iap_proxy_ip_cidr : var.master_authorized_network_cidr
-            display_name = "allowed-cidr"
-        }
-    }
-
-    network_policy {
-    enabled = var.network_policy_enabled
+  network_policy {
+    enabled = "false"
   }
 
   datapath_provider = var.dataplane_v2_enabled ? "ADVANCED_DATAPATH" : "DATAPATH_PROVIDER_UNSPECIFIED"
@@ -83,14 +71,6 @@ resource "google_container_cluster" "primary" {
 
     http_load_balancing {
       disabled = var.http_lb_disabled
-    }
-
-    istio_config {
-      disabled = var.istio_disabled
-    }
-
-    config_connector_config {
-      enabled = var.config_connector_enabled
     }
   }
 }
