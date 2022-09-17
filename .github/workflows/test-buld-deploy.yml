@@ -1,0 +1,78 @@
+name: Node.js CI tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ] # Run on PRs to main branch
+#  push:
+    # Turning off staging for now...
+    # branches:
+    #   - master
+#    tags:
+#
+#      - v\d+\.\d+\.\d+
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+
+jobs:
+  test-stage:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x] # node versions to test
+      
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci # install dependencies
+    - run: npm test # run tests (if any)
+
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+      
+    steps:
+
+      - name: Set ENV
+        run: |-
+          if [ ${GITHUB_REF##*/} = "main" ]; then
+            echo "ENV=staging" >> $GITHUB_ENV
+          else 
+            echo "ENV=production" >> $GITHUB_ENV
+          fi
+      - name: Checkout
+        uses: actions/checkout@v3
+
+    # Setup gcloud CLI
+      - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+        with:
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          project_id: ${{ secrets.GKE_PROJECT }}
+
+      # Configure Docker to use the gcloud command-line tool as a credential
+      # helper for authentication
+      - run: |-
+          gcloud --quiet auth configure-docker
+
+      # Build the Docker image
+      - name: Build
+        run: |-
+          make build
+
+      # Push the Docker image to Google Container Registry
+      - name: Publish
+        run: |-
+          make push
+
+      # Deploy the Docker image to the GKE cluster
+      - name: Deploy
+        run: |-
+          make deploy
