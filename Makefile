@@ -82,11 +82,11 @@ push:
 deploy: check-env
 	@echo "edit the image with new tag..."
 	kustomize edit set image $(REMOTE_TAG)
-	
+
 	@echo "applying the deployment..."
 	@echo "the environment is $(ENV)"
 
-	kustomize build . | kubectl apply -f -
+	kustomize build ./$(ENV)/. | kubectl apply -f -
 
 	# rollout deployment
 	kubectl rollout restart deployment/restapi-deployment
