@@ -49,6 +49,7 @@ The main purpose of this project is to easily change beetween multiple environme
 ### Test the API
 
 To test the api, first it has to make a POST request to $(HOST)/DevOps/token, which will return a token to make the request.
+Token will expired in 6s.
 
 ```
 # save host url
