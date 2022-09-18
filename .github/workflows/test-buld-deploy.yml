@@ -60,8 +60,10 @@ jobs:
         with:
           service_account_key: ${{ secrets.GKE_SA_KEY }}
           project_id: ${{ env.PROJECT_ID }}
-        #env:
-        #  ENV: ${{ env.GITHUB_ENV}}
+        env:
+          ENV: ${{ env.GITHUB_ENV}}
+          SHA: ${{ github.sha }}
+          PROJECT_ID: ${ { secrets.GKE_PROJECT_ID }}
 
       # Configure Docker to use the gcloud command-line tool as a credential
       # helper for authentication
