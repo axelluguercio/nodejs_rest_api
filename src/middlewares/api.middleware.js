@@ -2,9 +2,9 @@
 const allowOnlyPost = (req, res, next) => {
     console.log(req.method);
     if (req.method !== 'POST') {
-        return res.status(401).send(`ERROR`)
+        return res.status(200).send(`ERROR`)
     }
     next();
 }
 
-export default { allowOnlyPost };
+export default allowOnlyPost;

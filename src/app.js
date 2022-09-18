@@ -17,10 +17,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Custom middleware definition
-const { allowOnlyPost } = require("./middlewares/api.middleware").default;
-
 // Routes
-app.use("/DevOps", allowOnlyPost, routes);
+app.use("/", routes);
 
 export default app;
