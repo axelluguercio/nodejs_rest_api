@@ -14,8 +14,10 @@ on:
 #      - v\d+\.\d+\.\d+
 
 env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-
+  PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
+  SERVICE_ACCOUNT: ${{ secrets.GKE_SA_KEY }}
+  SHA: ${{ github.sha }}
+  
 jobs:
   test-stage:
 
@@ -48,19 +50,26 @@ jobs:
           else 
             echo "ENV=production" >> $GITHUB_ENV
           fi
+          
       - name: Checkout
         uses: actions/checkout@v3
 
-    # Setup gcloud CLI
-      - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+     # Setup gcloud CLI
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          service_account_key: ${{ secrets.GKE_SA_KEY }}
-          project_id: ${{ secrets.GKE_PROJECT }}
+          version: '290.0.1'
+          service_account_key: ${{ secrets.GCE_SA_KEY }}
+          project_id: ${{ env.PROJECT_ID }}
 
       # Configure Docker to use the gcloud command-line tool as a credential
       # helper for authentication
       - run: |-
           gcloud --quiet auth configure-docker
+
+      # Get GKE credentials
+      - name: Get GKE credentials
+        run: |-
+          make get-credentials
 
       # Build the Docker image
       - name: Build
@@ -72,7 +81,13 @@ jobs:
         run: |-
           make push
 
-      # Deploy the Docker image to the GKE cluster
-      - name: Deploy
+      # Setting up kustomize
+      - name: Set up Kustomize
+        run: |-
+          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+          sudo mv kustomize /usr/local/bin/   
+
+      # Deploy to cluster
+      - name: Deploy Image to Gke Cluster 
         run: |-
           make deploy
