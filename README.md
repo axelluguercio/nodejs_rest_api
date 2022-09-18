@@ -18,7 +18,7 @@ make run-local
 
 The terraform configuration provisions:
 
-* GKE cluster with 1 nodes (for staging) or multiregional cluster with 2 nodes (prod). C
+* GKE cluster with 1 nodes (for staging) or zonal cluster with 2 nodes (prod). Ingress load balancer to redirect traffic between the nodes.
 * Storage bucket to store terraform state backend
 
 Using the terraform config requires:
@@ -67,4 +67,4 @@ curl -X POST -H "X-Parse-REST-API-Key:2f5ae96c-b558-4c7b-a590-a501ae1c3f6c" \
 
 ### Notice
 
-The purpose of the project is to test the endpoint. As the request require send secrets api key and token to the header, traffic should be encrypted with https and tls's certificates, which are out of the scope of the test otherwise it will increase the cost.
+The purpose of the project is to test the endpoint. As the request require send secrets api key and token to the header, traffic should be encrypted with https and tls's certificates, which are out of the scope of the test.
