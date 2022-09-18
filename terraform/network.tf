@@ -1,5 +1,5 @@
 resource "google_compute_network" "k8s_vpc" {
-  name = "${var.gke_cluster_name}-k8s-vpc"
+  name = "${var.gke_cluster_name}-${terraform.workspace}-k8s-vpc"
 
   # defaults to true.  false = --subnet-mode custom
   auto_create_subnetworks = "false"

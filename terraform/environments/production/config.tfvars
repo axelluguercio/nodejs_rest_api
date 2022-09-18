@@ -1,3 +1,3 @@
-machine_type = "e2-medium"
-disk_size_gb = "30"
-max_nodes    = "2"
+machine_type = "e2-standard-8"
+disk_size_gb = "100"
+max_nodes    = "3"

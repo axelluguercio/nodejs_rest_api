@@ -4,10 +4,10 @@ region                = "us-central1"
 zone                  = "us-central1-a"
 credentials_file_path = "./terraform-sa-key.json"
 
-primary_ip_cidr          = "192.168.0.0/28" # max node IPs = 15 (max nodes = 11 (2 required); 4 IPs reservered in every VPC)
-max_pods_per_node        = "8"             # max pods per node <= half of max node IPs
-cluster_ipv4_cidr_block  = "10.0.0.0/20"    # max pod IPs = 15360 (60 * 256), CIDR must be able to cover for all the potential IPs
-services_ipv4_cidr_block = "10.1.0.0/22"
+primary_ip_cidr          = "192.168.0.0/26" # max node IPs = 15 (max nodes = 11 (2 required); 4 IPs reservered in every VPC)
+max_pods_per_node        = "32"             # max pods per node <= half of max node IPs
+cluster_ipv4_cidr_block  = "10.0.0.0/18"    # max pod IPs = 15360 (60 * 256), CIDR must be able to cover for all the potential IPs
+services_ipv4_cidr_block = "10.1.0.0/20"
 
 channel      = "REGULAR"
 auto_upgrade = "true"

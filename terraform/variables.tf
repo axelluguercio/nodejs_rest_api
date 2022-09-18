@@ -63,6 +63,7 @@ variable "iam_roles_list" {
     "roles/monitoring.metricWriter",
     "roles/monitoring.viewer",
     "roles/stackdriver.resourceMetadata.writer",
+    "roles/storage.objectViewer",
   ]
 }
 
@@ -74,6 +75,7 @@ variable "wi_iam_roles_list" {
     "roles/cloudprofiler.agent",
     "roles/cloudtrace.agent",
     "roles/monitoring.metricWriter",
+    "roles/storage.objectViewer",
   ]
 }
 

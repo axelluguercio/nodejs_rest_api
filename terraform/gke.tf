@@ -1,5 +1,7 @@
 resource "google_container_cluster" "primary" {
 
+  provider = google-beta
+
   name     = "${var.gke_cluster_name}-${terraform.workspace}-cluster"
   location = var.zone
 
@@ -8,6 +10,7 @@ resource "google_container_cluster" "primary" {
   confidential_nodes {
       enabled = var.confidential_nodes_enabled
   }
+  
   node_config {
     machine_type = var.machine_type
   }
@@ -71,6 +74,14 @@ resource "google_container_cluster" "primary" {
 
     http_load_balancing {
       disabled = var.http_lb_disabled
+    }
+
+    istio_config {
+      disabled = var.istio_disabled
+    }
+
+    config_connector_config {
+      enabled = var.config_connector_enabled
     }
   }
 }
