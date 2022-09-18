@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restapi-deployment
+spec:
+  replicas: 2 # 2 replicas
+  selector:
+    matchLabels:
+      component: api
+  template:
+    metadata:
+      labels:
+        component: api
+    spec:
+      containers:
+        - name: rest-api
+          image: gcr.io/PROJECT_ID/api:SHA # pull image from docker registry
+          ports:
+            - containerPort: 4000
+          env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: API_KEY
+            - name: JWT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: JWT_TOKEN
+      
+# Service for expose the deployment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: restapi-service
+spec:
+  type: LoadBalancer # expose the deployment as a load balancer
+  selector:
+    component: api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 4000
