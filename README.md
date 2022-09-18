@@ -18,7 +18,7 @@ make run-local
 
 The terraform configuration provisions:
 
-* GKE cluster with 1 nodes (for staging) or multiregional cluster with 3 nodes (prod). Current cluster is for staging as for the test purpose
+* GKE cluster with 1 nodes (for staging) or multiregional cluster with 2 nodes (prod). C
 * Storage bucket to store terraform state backend
 
 Using the terraform config requires:
@@ -28,8 +28,14 @@ Using the terraform config requires:
     - roles/compute.network.create
     - roles/compute.firewalls.create
     - roles/service.accounts.Admin
+2. Export key as json and store in the terraform folder.
+3. Configure API key manager
+4. Enable google apis
 
-2. Configure API key manager
+```
+gcloud services enable --async \
+  container.googleapis.com
+```
 
 ### Workflow
 
@@ -58,3 +64,7 @@ curl -X POST -H "X-Parse-REST-API-Key:2f5ae96c-b558-4c7b-a590-a501ae1c3f6c" \
         -d '{"message": "This is a test","to": "Juan Perez","from": "Rita Asturia","timeToLifeSec":"45"}' \
         http://$(HOST)/DevOps
 ```
+
+### Notice
+
+The purpose of the cluster created is to test the endpoint so as the request require send secrets api key and token from the header, traffic should be encrypted with https and tls certificate, which were out of the scope of the test otherwise it will increase the cost.
