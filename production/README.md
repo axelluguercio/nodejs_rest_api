@@ -1,0 +1,1 @@
+# Kubernetes resources for production environment
