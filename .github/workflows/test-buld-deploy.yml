@@ -37,6 +37,8 @@ jobs:
     - run: npm test # run tests (if any)
 
   setup-build-publish-deploy:
+    needs: test-stage # I'd depend on the test jobs to proceed with the deploy itself
+
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
       
@@ -54,10 +56,9 @@ jobs:
         uses: actions/checkout@v2
 
       # Setup gcloud CLI
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@main
+      - uses: google-github-actions/setup-gcloud@main
         with:
-          version: '290.0.1'
-          service_account_key: ${{ secrets.GCE_SA_KEY }}
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
           project_id: ${{ env.PROJECT_ID }}
 
       # Configure Docker to use the gcloud command-line tool as a credential
