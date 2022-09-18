@@ -48,7 +48,7 @@ The main purpose of this project is to easily change beetween multiple environme
 
 ### Test the API
 
-To test the api, first it has to make a POST requesto to $(HOST)/DevOps/token, which will return a token to make the request.
+To test the api, first it has to make a POST request to $(HOST)/DevOps/token, which will return a token to make the request.
 
 ```
 # save host url
@@ -67,4 +67,4 @@ curl -X POST -H "X-Parse-REST-API-Key:2f5ae96c-b558-4c7b-a590-a501ae1c3f6c" \
 
 ### Notice
 
-The purpose of the cluster created is to test the endpoint so as the request require send secrets api key and token from the header, traffic should be encrypted with https and tls certificate, which were out of the scope of the test otherwise it will increase the cost.
+The purpose of the project is to test the endpoint. As the request require send secrets api key and token to the header, traffic should be encrypted with https and tls's certificates, which are out of the scope of the test otherwise it will increase the cost.
