@@ -38,7 +38,7 @@ The main purpose of this project is to easily change beetween multiple environme
 - pipeline steps:
     * Test
     * delivery
-  The workflow will select the environment by taking the refs of the git push request.
+- The workflow will select the environment by taking the refs of the git push request.
 
 ### Test the API
 
@@ -52,7 +52,6 @@ export HOST=<hostname/ip-address given>
 JWT=$(curl -s -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' --data '{"username":"{username}","password":"{password}","rememberMe":false}' http://$(HOST)/DevOps/token)
 
 # Make the request
-
 curl -X POST -H "X-Parse-REST-API-Key:2f5ae96c-b558-4c7b-a590-a501ae1c3f6c" \
         -H "X-JWT-KWY:${JWT}" \
         -H "Content-Type: application/json" \
