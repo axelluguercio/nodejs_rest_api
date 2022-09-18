@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- deployment.yaml
+- service.yaml
+images:
+- digest: sha256:3013172a8c832c041d1b9e31e13ac7a455c6d2809e2730674f1ae66d260f1526
+  name: gcr.io/devops-test-362819/api
