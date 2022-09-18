@@ -84,7 +84,7 @@ deploy: check-env
 	kustomize edit set image $(REMOTE_TAG)
 	@echo "applying the deployment..."
 	@echo "the environment is $(ENV)"
-	kustomize build k8s/$(ENV)/. | kubectl apply -f -
+	kustomize build . | kubectl apply -f -
 	# rollout deployment
 	kubectl rollout restart deployment/restapi-deployment
 	kubectl get services -o wide
