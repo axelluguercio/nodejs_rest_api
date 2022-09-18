@@ -2,16 +2,11 @@ name: Node.js CI tests
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ] # Run on PRs to main branch
-#  push:
-    # Turning off staging for now...
-    # branches:
-    #   - master
-#    tags:
-#
-#      - v\d+\.\d+\.\d+
+    #Turning off staging for now...
+    #branches:
+    #  - master
+    tags:
+      - v\d+\.\d+\.\d+  # Runs on tags like v1.0.0
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
