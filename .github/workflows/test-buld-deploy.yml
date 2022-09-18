@@ -17,7 +17,7 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
   SERVICE_ACCOUNT: ${{ secrets.GKE_SA_KEY }}
   SHA: ${{ github.sha }}
-  
+
 jobs:
   test-stage:
 
@@ -54,10 +54,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-     # Setup gcloud CLI
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      # Setup gcloud CLI
+      - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
         with:
-          version: '290.0.1'
+          
           service_account_key: ${{ secrets.GCE_SA_KEY }}
           project_id: ${{ env.PROJECT_ID }}
 
