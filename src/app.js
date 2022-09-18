@@ -17,6 +17,9 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//remove cache crontoll
+app.disable('etag');
+
 // Routes
 app.use("/", routes);
 
