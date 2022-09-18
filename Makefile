@@ -65,16 +65,20 @@ GKE_CLUSTER_NAME=rest-api-$(ENV)-cluster
 
 ###
 
+# Get crendentials for the gke cluster
 get-credentials:
 	gcloud container clusters get-credentials $(GKE_CLUSTER_NAME) --zone $(ZONE) --project $(PROJECT_ID)
 
+# build the docker image
 build:
 	docker build -t $(LOCAL_TAG) .
 
+# push the docker image to gcp container registry
 push:
 	docker tag $(LOCAL_TAG) $(REMOTE_TAG)
 	docker push $(REMOTE_TAG)
 
+# deploy the container image to gke cluster using kustomize and kubectl
 deploy: check-env
 	@echo "edit the image with new tag..."
 	kustomize edit set image $(REMOTE_TAG)
