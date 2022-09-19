@@ -1,3 +1,5 @@
+# Setting up all the providers for the project
+
 terraform {
   required_version = "~> 1.0"
   required_providers {
@@ -13,7 +15,7 @@ terraform {
 }
 
 provider "google" {
-  credentials = file(var.credentials_file_path)
+  credentials = file(var.credentials_file_path) # terraform key json path
 
   project = var.project_id
   region  = var.region

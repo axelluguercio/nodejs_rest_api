@@ -1,3 +1,5 @@
+# common vars between the two to pass through tfvars 
+
 app_name="rest-api"
 project_id            = "devops-test-362819"
 region                = "us-central1"
@@ -23,12 +25,3 @@ oauth_scopes = [
 ]
 
 workload_metadata_enabled = "true"
-
-# custom node taints
-taint = [
-  {
-    key    = "node.cilium.io/agent-not-ready"
-    value  = "true"
-    effect = "NO_SCHEDULE"
-  }
-]

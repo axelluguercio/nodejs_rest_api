@@ -1,6 +1,6 @@
 resource "google_container_cluster" "primary" {
 
-  provider = google-beta
+  provider = google-beta # declare beta plugin for google provider
 
   name     = "${var.gke_cluster_name}-${terraform.workspace}-cluster"
   location = var.zone
@@ -86,6 +86,7 @@ resource "google_container_cluster" "primary" {
   }
 }
 
+### Declare the node pool for the cluster
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
   name     = var.gke_nodepool_name
@@ -115,15 +116,6 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
 
     service_account = google_service_account.gke_sa.email
     oauth_scopes    = var.oauth_scopes
-
-    dynamic "taint" {
-      for_each = var.taint
-      content {
-        key    = taint.value["key"]
-        value  = taint.value["value"]
-        effect = taint.value["effect"]
-      }
-    }
 
     # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster#mode
     # https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#option_2_node_pool_modification
