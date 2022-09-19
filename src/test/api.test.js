@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 import {  app, server } from '../index';
-import config from '../config';
+
+// test response from server
 
 const api = supertest(app);
 

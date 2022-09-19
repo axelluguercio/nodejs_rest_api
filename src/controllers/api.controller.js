@@ -22,6 +22,7 @@ const sendMessage = (req, res) => {
     }
 }
 
+// give a token to the user (expires in 6s)
 const sendToken = (req, res) => {
 
     try {
