@@ -4,10 +4,8 @@ kind: Ingress
 metadata:
   name: restapi-ingress
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: restapi # static ip name
-    #networking.gke.io/managed-certificates: treugkemanagedrestapitlscertificateforhttpsloadbalancers # managed certificate
     kubernetes.io/ingress.class: "gce"
-    kubernetes.io/ingress.allow-http: "true"
+    #networking.gke.io/managed-certificates: treugkemanagedrestapitlscertificateforhttpsloadbalancers # managed certificate
 spec:
   defaultBackend:
     service:

@@ -14,7 +14,19 @@ spec:
     spec:
       containers:
         - name: rest-api
-          image: gcr.io/PROJECT_ID/api:SHA # pull image from docker registry
+          image: gcr.io/devops-test-362819/api:latest  # pull image from docker registry
+          livenessProbe: # check if the container is alive (health check for gke ingress LB)
+            failureThreshold: 3
+            httpGet:
+              path: /DevOps # will check if the path is available (if the container is alive)
+              port: 4000
+              scheme: HTTP
+          readinessProbe: # check if the container is alive (health check for gke ingress LB)
+            failureThreshold: 3
+            httpGet:
+              path: /DevOps # will check if the path is available (if the container is alive)
+              port: 4000
+              scheme: HTTP
           ports:
             - containerPort: 4000
           env:
