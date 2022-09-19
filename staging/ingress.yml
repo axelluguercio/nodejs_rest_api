@@ -5,20 +5,9 @@ metadata:
   name: restapi-ingress
   annotations:
     kubernetes.io/ingress.class: "gce"
-    #networking.gke.io/managed-certificates: treugkemanagedrestapitlscertificateforhttpsloadbalancers # managed certificate
 spec:
   defaultBackend:
     service:
       name: restapi-service
       port:
         number: 80
----
-
-# Gke managed TLS certificate for HTTPS load balancers (any traffic would be encrypted)
-#apiVersion: networking.gke.io/v1
-#kind: ManagedCertificate
-#metadata:
-#  name: treugkemanagedrestapitlscertificateforhttpsloadbalancers
-#spec:
-#  domains:
-#    - restapi.devops-test-362819.com
