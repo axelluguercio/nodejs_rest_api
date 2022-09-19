@@ -1,0 +1,41 @@
+# Service for expose the deployment
+apiVersion: v1
+kind: Service
+metadata:
+  name: restapi-service-tls
+  annotations:
+    # Specify the type of traffic accepted
+    cloud.google.com/app-protocols: '{"service-port":"HTTPS"}'
+     # Specify the BackendConfig to be used for the exposed ports
+    cloud.google.com/backend-config: '{"default": "restapi-backendconfig"}'
+    # Enables the Cloud Native Load Balancer
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  type: ClusterIP # expose the deployment as a load balancer | NodePort | ClusterIP
+  selector:
+    component: api
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 4000
+  sessionAffinity: None # None | ClientIP
+
+---
+
+# backend config for the service
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: restapi-backendconfig
+spec:
+  sessionAffinity:
+    affinityType: "CLIENT_IP"
+  healthCheck:
+    checkIntervalSec: 60
+    timeoutSec: 5
+    healthyThreshold: 1
+    unhealthyThreshold: 5
+    type: HTTP
+    requestPath: /DevOps
+    # The containerPort of the application in Deployment.yaml (also for liveness and readyness Probes)
+    port: 4000

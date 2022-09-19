@@ -1,0 +1,41 @@
+# Example of ingress for TLS (HTTPS) traffic
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: secure-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: gke-api-public-ip
+    networking.gke.io/managed-certificates: treugkemanagedrestapitlscertificateforhttpsloadbalancers
+    networking.gke.io/v1beta1.FrontendConfig: ingress-security-config
+spec:
+  rules:
+  - host: api.${DOMAIN}.com
+    http:
+      paths:
+      - backend:
+          serviceName: restapi-service
+          servicePort: 80
+
+---
+
+# Frontend service for ingress
+apiVersion: networking.gke.io/v1
+kind: FrontendConfig
+metadata:
+  name: ingress-security-config
+spec:
+  sslPolicy: gke-ingress-ssl-policy
+  redirectToHttps:
+    enabled: true
+---
+
+
+# Gke managed TLS certificate for HTTPS load balancers (any traffic would be encrypted)
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: treugkemanagedrestapitlscertificateforhttpsloadbalancers
+spec:
+  domains:
+    - api.${DOMAIN}.com
