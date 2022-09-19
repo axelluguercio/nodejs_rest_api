@@ -2,12 +2,12 @@
 
 This rest api uses nodejs/express.
 
-It uses Docker + docker-compose for local execution, Terraform to provision cloud resources and Github Actions for CI/CD.
+It uses Docker + docker-compose for local execution, Terraform to automate the provisioning of cloud resources and Github Actions workflow to automating the test, build and deployment to a GKE cluster taking care of different environment (production|staging).
 
 ### Local Setup
 ---
 
-run
+run api local to test with docker-compose with:
 
 ```
 make run-local
@@ -19,6 +19,8 @@ make run-local
 The terraform configuration provisions:
 
 * GKE cluster with 1 nodes (for staging) or zonal cluster with 2 nodes (prod). Ingress load balancer to redirect traffic between the nodes.
+* VPC for kubernetes
+* Service accounts for gke and workloads identity
 * Storage bucket to store terraform state backend
 
 Using the terraform config requires:
