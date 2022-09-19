@@ -69,4 +69,16 @@ curl -X POST -H "X-Parse-REST-API-Key:2f5ae96c-b558-4c7b-a590-a501ae1c3f6c" \
 
 ### Notice
 
-The purpose of the project is to test the endpoint. As the request require send secrets api key and token to the header, traffic should be encrypted with https and tls's certificates, which are out of the scope of the test.
+The purpose of the project is to test the endpoint. As the request require send secrets api key and token to the header, traffic should be encrypted with https and tls's certificates, which are out of the scope of the test for Gke intances, however I create a render deployment which provide a free tls layer.
+
+To test render deployment with https
+
+```
+JWT=$(curl -s -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' --data '{"username":"{username}","password":"{password}","rememberMe":false}' https://rest-api-devops-test.onrender.com/DevOps/token)
+
+curl -X POST -H "X-Parse-REST-API-Key:2f5ae96c-b558-4c7b-a590-a501ae1c3f6c" \
+        -H "X-JWT-KWY:${JWT}" \
+        -H "Content-Type: application/json" \
+        -d '{"message": "This is a tes","to": "Juan Perez","from": "Rita Asturia","timeToLifeSec":"45"}' \
+        https://rest-api-devops-test.onrender.com/DevOps
+```
